@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import products from "../data/products.json";
+import { useCart } from "../context/CartContext";
+import { useRef } from "react";
 
 export default function ProductDetail(){
   const { id } = useParams();
