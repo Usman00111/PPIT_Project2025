@@ -9,18 +9,17 @@ export function getProducts() {
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) return JSON.parse(raw);
-  } catch {}
-  // first time: seed/start from products.json
+  } catch (e) { console.warn("getProducts: read/parse failed", e); }
   try {
     localStorage.setItem(KEY, JSON.stringify(initial));
-  } catch {}
+  } catch (e) { console.warn("getProducts: seed failed", e); }
   return initial;
 }
 
 export function saveProducts(list) {
   try {
     localStorage.setItem(KEY, JSON.stringify(list));
-  } catch {}
+  } catch (e) { console.warn("saveProducts: write failed", e); }
 }
 
 export function addProduct(p) {
