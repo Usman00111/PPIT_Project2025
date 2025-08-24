@@ -46,7 +46,17 @@ export default function Checkout() {
                         <button type="submit">Place Order (Guest)</button>
                     </form>
                 </div>
-            
+            )}
+
+            {user && (
+                <div style={{ border: "1px solid #eee", padding: 12, borderRadius: 6 }}>
+                    <h3>Logged-in Checkout</h3>
+                    <p><strong>Name:</strong> {user.name}</p>
+                    <p><strong>Email:</strong> {user.email}</p>
+                    <p><strong>Account Number:</strong> {user.accountNumber}</p>
+                    <button onClick={placeOrderUser}>Place Order</button>
+                </div>
+            )}
         </div>
     );
 }
