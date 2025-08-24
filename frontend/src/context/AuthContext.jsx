@@ -20,8 +20,16 @@ export function AuthProvider({ children }) {
     else localStorage.removeItem("auth_token");
   }, [token]);
 
+  function loginStub(email){
+    const mockUser = { id: "u1", name: "Test User", email, role: "user", accountNumber: "BG12345678" };
+    setUser(mockUser);
+    setToken("demo-token");
+    return mockUser;
+  }
+
+
     return (
-        <AuthCtx.Provider value={{ user, token, setUser, setToken }}>
+        <AuthCtx.Provider value={{ user, token, setUser, setToken, loginStub }}>
             {children}
         </AuthCtx.Provider>
     );
