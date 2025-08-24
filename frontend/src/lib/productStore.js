@@ -26,23 +26,27 @@ export function addProduct(p) {
     const list = getProducts();
     const withId = {
         ...p,
-        id: p.id || ("p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6))
+        id: p.id || ("p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)),
+        price: Number(p.price ?? 0),
+        stock: Number(p.stock ?? 0)
     };
-
     const next = [withId, ...list];
     saveProducts(next);
     return withId;
 }
 
 export function updateProduct(id, patch) {
-    const list = getProducts();
-    const idx = list.findIndex(x => x.id === id);
-    if (idx === -1) return list;
-    const next = [...list];
-    next[idx] = { ...next[idx], ...patch };
-    saveProducts(next);
-    return next[idx];
+  const list = getProducts();
+  const idx = list.findIndex(x => x.id === id);
+  if (idx === -1) return null; // was 'list'; null makes "not found" clearer
+  const next = [...list];
+  const price = patch.price != null ? Number(patch.price) : next[idx].price;
+  const stock = patch.stock != null ? Number(patch.stock) : next[idx].stock;
+  next[idx] = { ...next[idx], ...patch, price, stock };
+  saveProducts(next);
+  return next[idx];
 }
+
 
 export function deleteProduct(id) {
     const list = getProducts();
