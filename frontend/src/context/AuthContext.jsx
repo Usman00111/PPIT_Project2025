@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { apiAuthLogin, apiAuthRegister, apiAuthMe } from "../lib/api";
 
 const AuthCtx = createContext(null);
 
@@ -20,11 +21,27 @@ export function AuthProvider({ children }) {
     else localStorage.removeItem("auth_token");
   }, [token]);
 
-  function loginStub(email){
-    const mockUser = { id: "u1", name: "Test User", email, role: "user", accountNumber: "BG12345678" };
-    setUser(mockUser);
-    setToken("demo-token");
-    return mockUser;
+  // restore session from token on load if user missing
+  useEffect(() => {
+    (async () => {
+      if (token && !user) {
+        try {
+          const u = await apiAuthMe();
+          setUser(u);
+        } catch {
+          setToken("");
+          setUser(null);
+        }
+      }
+    })();
+  }, [token]); // intentionally only depends on token
+
+  // real login using backend
+  async function login(email, password){
+    const { token: t, user: u } = await apiAuthLogin(email, password);
+    setToken(t);
+    setUser(u);
+    return u;
   }
 
   function logout(){
@@ -32,20 +49,19 @@ export function AuthProvider({ children }) {
     setToken("");
   }
 
-  function registerStub(name, email){
-    const mockUser = { id: "u2", name, email, role: "user", accountNumber: "BG87654321" };
-    setUser(mockUser);
-    setToken("demo-token");
-    return mockUser;
+  //real register using backend
+  async function register(name, email, password){
+    const { token: t, user: u } = await apiAuthRegister(name, email, password);
+    setToken(t);
+    setUser(u);
+    return u;
   }
 
-
     return (
-        <AuthCtx.Provider value={{ user, token, setUser, setToken, loginStub, logout, registerStub }}>
+        <AuthCtx.Provider value={{ user, token, setUser, setToken, login, logout, register }}>
             {children}
         </AuthCtx.Provider>
     );
 }
-
 
 export const useAuth = () => useContext(AuthCtx);
