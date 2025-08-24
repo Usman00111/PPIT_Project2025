@@ -18,9 +18,19 @@ export default function AdminProducts() {
     setF(prev => ({ ...prev, [name]: value }));
   }
 
+
+
   useEffect(() => {
     setList(getProducts());
   }, []);
+
+  const { user } = useAuth();
+
+  // simple client-side guard (server still enforces auth)
+  if (!user || user.role !== "admin") {
+    return <div>Not authorized.</div>;
+  }
+
 
   function startEdit(p) {
     setEditingId(p.id);
