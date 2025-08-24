@@ -21,3 +21,25 @@ h2 {
 main {
   min-height: 70vh;
 }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.card {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 10px;
+  background: #fff;
+}
+.card button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+.card input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
