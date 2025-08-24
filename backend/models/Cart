@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 
-// add identity fields first
+// addedd item list with product reference (details later)
 const cartSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    sessionId: { type: String } // for guests
+    sessionId: { type: String }, // for guests
+    items: [
+      {
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }
+      }
+    ]
   },
   { timestamps: true }
 );
