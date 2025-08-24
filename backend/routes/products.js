@@ -11,4 +11,14 @@ router.get("/", async (_req, res) => {
   }
 });
 
+// GET /api/products/:id (public) — placeholder
+router.get("/:id", async (_req, res) => {
+  try {
+    // real implementation next
+    res.status(501).json({ message: "Not implemented" });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
 module.exports = router;
