@@ -42,11 +42,13 @@ export default function Profile(){
   }
 
   return (
-    <div>
-      <h2>Profile</h2>
+  <div>
+    <h2>Profile</h2>
+    <div style={{ border: "1px solid #eee", padding: 12, borderRadius: 6, maxWidth: 480 }}>
       <p><strong>Name:</strong> {me.name}</p>
       <p><strong>Email:</strong> {me.email}</p>
       <p><strong>Account Number:</strong> {me.accountNumber}</p>
     </div>
-  );
+  </div>
+);
 }
