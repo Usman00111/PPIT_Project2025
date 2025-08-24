@@ -27,3 +27,16 @@ export async function apiPost(path, body, withAuth = false) {
   if (!res.ok) throw new Error(`POST ${path} failed`);
   return res.json();
 }
+
+export async function apiPut(path, body, withAuth = false) {
+  const res = await fetch(`${BASE}${path}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...(withAuth ? authHeaders() : {})
+    },
+    body: JSON.stringify(body || {})
+  });
+  if (!res.ok) throw new Error(`PUT ${path} failed`);
+  return res.json();
+}
