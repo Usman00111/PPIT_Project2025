@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
-// addedd item list with product reference (details later)
+// completedd item fields: quantity and priceAtAdd
 const cartSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     sessionId: { type: String }, // for guests
     items: [
       {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+        quantity: { type: Number, required: true, min: 1 },
+        priceAtAdd: { type: Number, required: true }
       }
     ]
   },
