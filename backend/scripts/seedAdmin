@@ -18,5 +18,29 @@ function validateAdminEnv(env) {
     exitWithError("Missing ADMIN_* env vars");
   }
 }
+async function ensureAdmin({ ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME }) {
+  let user = await User.findOne({ email: ADMIN_EMAIL });
+
+  if (!user) {
+    user = await User.create({
+      name: ADMIN_NAME,
+      email: ADMIN_EMAIL,
+      password: ADMIN_PASSWORD,
+      role: "admin",
+    });
+    console.log("✅ Admin created:", user.email);
+    return;
+  }
+
+  if (user.role !== "admin") {
+    user.role = "admin";
+  }
+  // optionally reset password if provided
+  if (ADMIN_PASSWORD) {
+    user.password = ADMIN_PASSWORD;
+  }
+  await user.save();
+  console.log("✅ Admin updated:", user.email);
+}
 
 module.exports = { exitWithError, getAdminEnv, validateAdminEnv, mongoose, connectDB, User };
