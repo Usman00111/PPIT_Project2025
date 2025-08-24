@@ -9,3 +9,8 @@ function authHeaders() {
     return {}; 
   }
 }
+export async function apiGet(path) {
+  const res = await fetch(`${BASE}${path}`);
+  if (!res.ok) throw new Error(`GET ${path} failed`);
+  return res.json();
+}
