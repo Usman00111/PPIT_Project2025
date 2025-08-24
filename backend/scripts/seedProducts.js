@@ -5,7 +5,12 @@ const Product = require("../models/Product");
 
 async function run() {
   await connectDB();
-  // seeding will go here
+  
+    const sample = [
+    { name: "Apples 1kg", price: 2.0, imageUrl: "", stock: 14, description: "Fresh Irish apples." },
+    { name: "Milk 2L", price: 2.1, imageUrl: "", stock: 20, description: "Semi-skimmed milk." }
+  ];
+
   await mongoose.connection.close();
   process.exit(0);
 }
