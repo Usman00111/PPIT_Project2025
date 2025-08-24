@@ -13,4 +13,10 @@ function getAdminEnv() {
   return { ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME };
 }
 
-module.exports = { exitWithError, getAdminEnv, mongoose, connectDB, User };
+function validateAdminEnv(env) {
+  if (!env.ADMIN_EMAIL || !env.ADMIN_PASSWORD || !env.ADMIN_NAME) {
+    exitWithError("Missing ADMIN_* env vars");
+  }
+}
+
+module.exports = { exitWithError, getAdminEnv, validateAdminEnv, mongoose, connectDB, User };
