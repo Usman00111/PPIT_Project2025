@@ -22,10 +22,21 @@ export default function MyOrders(){
     })();
   }, []);
 
-  return (
+   return (
     <div>
       <h2>My Orders</h2>
-      {loading ? <p>Loading…</p> : <p>Loaded.</p>}
+      {loading ? (
+        <p>Loading…</p>
+      ) : (
+        <ul>
+          {list.map(o => (
+            <li key={o._id}>
+              #{o._id} • €{Number(o.total).toFixed(2)} • {o.status}
+            </li>
+          ))}
+          {list.length === 0 && <li>No orders yet.</li>}
+        </ul>
+      )}
     </div>
   );
 }
