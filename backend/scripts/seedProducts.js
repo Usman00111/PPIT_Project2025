@@ -17,3 +17,5 @@ async function run() {
   await mongoose.connection.close();
   process.exit(0);
 }
+run().catch(e => { console.error(e); process.exit(1); });
+
