@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { apiGetAuth, apiPut } from "../lib/api";
+import { apiGetAuth, apiPutAuth } from "../lib/api";
 
 export default function AdminOrders(){
   const { user } = useAuth();
@@ -24,10 +24,12 @@ export default function AdminOrders(){
 
   async function changeStatus(id, status){
     try {
-      await apiPut(`/orders/${id}/status`, { status }, true);
+      setLoading(true);
+      await apiPutAuth(`/orders/${id}/status`, { status });
       await load();
     } catch {
       alert("Failed to update status (admin only).");
+      setLoading(false);
     }
   }
 
