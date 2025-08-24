@@ -18,6 +18,16 @@ router.post("/register", async (req, res) => {
 
     const user = await User.create({ name, email, password }); // hashed in model pre-save
     const token = signUser(user);
+
+    return res.json({
+  token,
+  user: {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    accountNumber: user.accountNumber
+  }
 });
 
 
