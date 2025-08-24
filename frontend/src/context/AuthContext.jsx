@@ -27,9 +27,14 @@ export function AuthProvider({ children }) {
     return mockUser;
   }
 
+  function logout(){
+    setUser(null);
+    setToken("");
+  }
+
 
     return (
-        <AuthCtx.Provider value={{ user, token, setUser, setToken, loginStub }}>
+        <AuthCtx.Provider value={{ user, token, setUser, setToken, loginStub, logout }}>
             {children}
         </AuthCtx.Provider>
     );
