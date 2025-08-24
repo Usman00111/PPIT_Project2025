@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/products", require("./routes/products"));
 
 
 // test route
