@@ -1,0 +1,10 @@
+[
+  { "id": "p1", "name": "Apples 1kg", "price": 2.0, "imageUrl": "https://via.placeholder.com/300?text=Apples", "stock": 14, "description": "Fresh Irish apples." },
+  { "id": "p2", "name": "Brown Bread", "price": 1.6, "imageUrl": "https://via.placeholder.com/300?text=Brown+Bread", "stock": 7, "description": "Local bakery brown bread." },
+  { "id": "p3", "name": "Milk 2L", "price": 2.1, "imageUrl": "https://via.placeholder.com/300?text=Milk+2L", "stock": 23, "description": "Fresh semi-skimmed milk." },
+  { "id": "p4", "name": "Free-Range Eggs (6)", "price": 2.5, "imageUrl": "https://via.placeholder.com/300?text=Eggs", "stock": 12, "description": "Free-range eggs." },
+  { "id": "p5", "name": "Bananas 1kg", "price": 1.9, "imageUrl": "https://via.placeholder.com/300?text=Bananas", "stock": 18, "description": "Sweet bananas." },
+  { "id": "p6", "name": "Cheddar 400g", "price": 3.2, "imageUrl": "https://via.placeholder.com/300?text=Cheddar", "stock": 9, "description": "Mature cheddar cheese." },
+  { "id": "p7", "name": "Tomatoes 500g", "price": 1.8, "imageUrl": "https://via.placeholder.com/300?text=Tomatoes", "stock": 16, "description": "Juicy tomatoes." },
+  { "id": "p8", "name": "Chicken Fillets 500g", "price": 5.5, "imageUrl": "https://via.placeholder.com/300?text=Chicken", "stock": 6, "description": "Fresh chicken fillets." }
+]
