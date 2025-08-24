@@ -4,3 +4,16 @@
 import initial from "../data/products.json";
 
 const KEY = "admin_products";
+
+export function getProducts() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  // first time: seed/start from products.json
+  try {
+    localStorage.setItem(KEY, JSON.stringify(initial));
+  } catch {}
+  return initial;
+}
+
