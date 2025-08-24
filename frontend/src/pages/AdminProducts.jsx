@@ -41,6 +41,25 @@ export default function AdminProducts() {
                 </form>
             </section>
 
+            <section style={{ marginTop: 8 }}>
+                <h4>Live Preview</h4>
+                <div className="card" style={{ maxWidth: 260 }}>
+                    <img
+                        src={f.imageUrl || "https://via.placeholder.com/300?text=Preview"}
+                        alt={f.name || "Preview"}
+                        style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 4 }}
+                    />
+                    <h3 style={{ margin: "8px 0" }}>{f.name || "Product Name"}</h3>
+                    <div style={{ fontWeight: 700 }}>
+                        {f.price ? `€${Number(f.price).toFixed(2)}` : "€0.00"}
+                    </div>
+                    <div style={{ color: "#555", fontSize: 14 }}>
+                        Stock: {f.stock || 0}
+                    </div>
+                    <button disabled type="button" title="Disabled in admin preview">Add to Cart</button>
+                </div>
+            </section>
+
 
             <section style={{ marginTop: 16 }}>
                 <h3 style={{ marginBottom: 8 }}>Products List</h3>
