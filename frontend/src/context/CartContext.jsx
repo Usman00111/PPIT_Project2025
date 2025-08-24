@@ -46,3 +46,22 @@ export function CartProvider({ children }){
     </CartCtx.Provider>
   );
 
+    function updateItem(productId, qty){
+    const q = Math.max(0, parseInt(qty, 10) || 0);
+    setItems(prev => {
+      const idx = prev.findIndex(it => it.id === productId);
+      if (idx === -1) return prev;
+      if (q === 0) return prev.filter(it => it.id !== productId);
+      const copy = [...prev];
+      copy[idx] = { ...copy[idx], quantity: q };
+      return copy;
+    });
+  }
+
+    return (
+    <CartCtx.Provider value={{ items, addItem, updateItem }}>
+      {children}
+    </CartCtx.Provider>
+  );
+
+  
