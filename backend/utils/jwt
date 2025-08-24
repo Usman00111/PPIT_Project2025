@@ -1,0 +1,17 @@
+const jwt = require("jsonwebtoken");
+
+function signUser(user) {
+  // Keep token payload small and simple
+  return jwt.sign(
+    {
+      id: user._id,
+      role: user.role,
+      name: user.name,
+      accountNumber: user.accountNumber
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+}
+
+module.exports = { signUser };
