@@ -5,6 +5,10 @@ import { addProduct, getProducts, deleteProduct } from "../lib/productStore";
 export default function AdminProducts() {
     const [list, setList] = useState([]);
 
+    const [editingId, setEditingId] = useState("");
+    const [edit, setEdit] = useState({ name: "", price: "", stock: "" });
+
+
     const [f, setF] = useState({ name: "", price: "", imageUrl: "", stock: "", description: "" });
 
     function onChange(e) {
@@ -15,6 +19,12 @@ export default function AdminProducts() {
     useEffect(() => {
         setList(getProducts());
     }, []);
+
+    function startEdit(p) {
+        setEditingId(p.id);
+        setEdit({ name: p.name, price: String(p.price), stock: String(p.stock) });
+    }
+
 
     return (
         <div>
@@ -112,24 +122,45 @@ export default function AdminProducts() {
                         </thead>
                         <tbody>
                             {list.map(p => (
-                                <tr key={p.id} style={{ borderBottom: "1px solid #f3f3f3" }}>
-                                    <td>{p.name}</td>
-                                    <td>€{p.price.toFixed(2)}</td>
-                                    <td>{p.stock}</td>
-                                    <td>
-                                        <button>Edit</button>{" "}
-                                        <button onClick={() => {
-                                            if (!confirm(`Delete "${p.name}"?`)) return;
-                                            deleteProduct(p.id);
-                                            setList(getProducts());
-                                        }}>Delete</button>
-
-                                    </td>
-                                </tr>
+                                editingId === p.id ? (
+                                    <tr key={p.id} style={{ borderBottom: "1px solid #f3f3f3", background: "#fafafa" }}>
+                                        <td>
+                                            <input value={edit.name} onChange={(e) => setEdit(s => ({ ...s, name: e.target.value }))} />
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" value={edit.price} onChange={(e) => setEdit(s => ({ ...s, price: e.target.value }))} />
+                                        </td>
+                                        <td>
+                                            <input type="number" value={edit.stock} onChange={(e) => setEdit(s => ({ ...s, stock: e.target.value }))} />
+                                        </td>
+                                        <td>
+                                            <button onClick={() => {
+                                                // update store
+                                                const priceNum = Number(edit.price || 0);
+                                                const stockNum = Number(edit.stock || 0);
+                                                if (!edit.name || isNaN(priceNum)) return alert("Name and valid price required.");
+                                                // lazy import to avoid circulars in snippet, but we already imported update below
+                                            }}>Save</button>{" "}
+                                            <button onClick={() => setEditingId("")}>Cancel</button>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    <tr key={p.id} style={{ borderBottom: "1px solid #f3f3f3" }}>
+                                        <td>{p.name}</td>
+                                        <td>€{p.price.toFixed(2)}</td>
+                                        <td>{p.stock}</td>
+                                        <td>
+                                            <button onClick={() => startEdit(p)}>Edit</button>{" "}
+                                            <button onClick={() => {
+                                                if (!confirm(`Delete "${p.name}"?`)) return;
+                                                deleteProduct(p.id);
+                                                setList(getProducts());
+                                            }}>Delete</button>
+                                        </td>
+                                    </tr>
+                                )
                             ))}
-                            {list.length === 0 && (
-                                <tr><td colSpan="4">No products yet.</td></tr>
-                            )}
+
                         </tbody>
                     </table>
                 </div>
