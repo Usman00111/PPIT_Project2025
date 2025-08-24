@@ -32,9 +32,16 @@ export function AuthProvider({ children }) {
     setToken("");
   }
 
+  function registerStub(name, email){
+    const mockUser = { id: "u2", name, email, role: "user", accountNumber: "BG87654321" };
+    setUser(mockUser);
+    setToken("demo-token");
+    return mockUser;
+  }
+
 
     return (
-        <AuthCtx.Provider value={{ user, token, setUser, setToken, loginStub, logout }}>
+        <AuthCtx.Provider value={{ user, token, setUser, setToken, loginStub, logout, registerStub }}>
             {children}
         </AuthCtx.Provider>
     );
