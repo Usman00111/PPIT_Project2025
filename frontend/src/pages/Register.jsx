@@ -4,17 +4,36 @@ import { useNavigate, Link } from "react-router-dom";
 
 export default function Register(){
   const nav = useNavigate();
-  const { registerStub } = useAuth();
+  //pull both register (real) and registerStub (fallback)
+  const { register, registerStub } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function onSubmit(e){
+  //make async and call real register if present
+  async function onSubmit(e){
     e.preventDefault();
-    if (!name || !email) return;
-    const u = registerStub(name, email);
-    alert(`Welcome ${u.name}! Your Account Number is ${u.accountNumber}`);
-    nav("/");
+    if (!name || !email || !password) return;
+
+    try {
+      let u;
+      if (typeof register === "function") {
+        // real backend call (returns { token, user })
+        u = await register(name, email, password);
+      } else if (typeof registerStub === "function") {
+        // fallback to stub if you haven’t switched AuthContext yet
+        u = registerStub(name, email);
+      } else {
+        throw new Error("No register method available");
+      }
+
+      // both paths provide user with accountNumber
+      alert(`Welcome ${u.name}! Your Account Number is ${u.accountNumber}`);
+      nav("/");
+    } catch (err) {
+      alert("Registration failed");
+      console.error(err);
+    }
   }
 
   return (
