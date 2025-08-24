@@ -23,4 +23,13 @@ export function saveProducts(list) {
   } catch {}
 }
 
+export function addProduct(p) {
+  const list = getProducts();
+  const withId = { ...p, id: p.id || ("p" + Math.random().toString(36).slice(2, 8)) };
+  const next = [withId, ...list];
+  saveProducts(next);
+  return withId;
+}
+
+
 
