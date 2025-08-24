@@ -10,6 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/api/auth", require("./routes/auth"));
+
 
 // test route
 app.get("/health", (_req, res) => res.json({ ok: true }));
