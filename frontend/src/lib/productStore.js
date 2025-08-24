@@ -31,5 +31,15 @@ export function addProduct(p) {
   return withId;
 }
 
+export function updateProduct(id, patch) {
+  const list = getProducts();
+  const idx = list.findIndex(x => x.id === id);
+  if (idx === -1) return list;
+  const next = [...list];
+  next[idx] = { ...next[idx], ...patch };
+  saveProducts(next);
+  return next[idx];
+}
+
 
 
