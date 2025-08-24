@@ -26,9 +26,15 @@ export default function Checkout() {
         clearCart();
     }
 
+
     return (
         <div>
             <h2>Checkout</h2>
+            
+            <div style={{ marginBottom: 12 }}>
+                <strong>Order Summary:</strong> {items.length} item(s) • Total €{total.toFixed(2)}
+            </div>
+
         </div>
     );
 }
