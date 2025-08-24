@@ -48,3 +48,15 @@ export async function apiDel(path, withAuth = false) {
   if (!res.ok) throw new Error(`DELETE ${path} failed`);
   return res.json();
 }
+
+export async function apiAuthRegister(name, email, password) {
+  return apiPost("/auth/register", { name, email, password });
+}
+
+export async function apiAuthLogin(email, password) {
+  return apiPost("/auth/login", { email, password });
+}
+
+export async function apiAuthMe() {
+  return apiGet("/auth/me");
+}
