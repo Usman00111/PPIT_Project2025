@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { apiGet } from "../lib/api";
+import { apiGet, apiPut } from "../lib/api";
 
 export default function AdminOrders(){
   const { user } = useAuth();
@@ -22,6 +22,15 @@ export default function AdminOrders(){
 
   useEffect(()=>{ load(); }, []);
 
+  async function changeStatus(id, status){
+    try {
+      await apiPut(`/orders/${id}/status`, { status }, true);
+      await load();
+    } catch {
+      alert("Failed to update status (admin only).");
+    }
+  }
+
   if (loading) return <div><h2>Admin: Orders</h2><p>Loading…</p></div>;
 
   return (
@@ -35,6 +44,7 @@ export default function AdminOrders(){
               <th>Items (qty)</th>
               <th>Total</th>
               <th>Status</th>
+              <th>Change</th>
             </tr>
           </thead>
           <tbody>
@@ -44,10 +54,18 @@ export default function AdminOrders(){
                 <td>{(o.items || []).map(i => `${i.quantity}x`).join(", ")}</td>
                 <td>€{Number(o.total).toFixed(2)}</td>
                 <td>{o.status}</td>
+                <td>
+                  <select defaultValue={o.status} onChange={(e)=>changeStatus(o._id, e.target.value)}>
+                    <option value="placed">placed</option>
+                    <option value="paid">paid</option>
+                    <option value="shipped">shipped</option>
+                    <option value="cancelled">cancelled</option>
+                  </select>
+                </td>
               </tr>
             ))}
             {list.length === 0 && (
-              <tr><td colSpan="4">No orders yet.</td></tr>
+              <tr><td colSpan="5">No orders yet.</td></tr>
             )}
           </tbody>
         </table>
