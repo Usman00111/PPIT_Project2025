@@ -27,7 +27,31 @@ export default function AdminOrders(){
   return (
     <div>
       <h2>Admin: Orders</h2>
-      <p>Fetched {list.length} order(s).</p>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr style={{ textAlign: "left", borderBottom: "1px solid #eee" }}>
+              <th>Order ID</th>
+              <th>Items (qty)</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.map(o => (
+              <tr key={o._id} style={{ borderBottom: "1px solid #f3f3f3" }}>
+                <td>{o._id}</td>
+                <td>{(o.items || []).map(i => `${i.quantity}x`).join(", ")}</td>
+                <td>€{Number(o.total).toFixed(2)}</td>
+                <td>{o.status}</td>
+              </tr>
+            ))}
+            {list.length === 0 && (
+              <tr><td colSpan="4">No orders yet.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
