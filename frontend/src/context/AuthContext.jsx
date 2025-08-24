@@ -38,11 +38,14 @@ export function AuthProvider({ children }) {
 
   // real login using backend
   async function login(email, password){
+  try {
     const { token: t, user: u } = await apiAuthLogin(email, password);
-    setToken(t);
-    setUser(u);
+    setToken(t); setUser(u);
     return u;
+  } catch (e) {
+    throw e; // or alert("Login failed")
   }
+}
 
   function logout(){
     setUser(null);
