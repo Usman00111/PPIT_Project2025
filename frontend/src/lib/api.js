@@ -40,3 +40,11 @@ export async function apiPut(path, body, withAuth = false) {
   if (!res.ok) throw new Error(`PUT ${path} failed`);
   return res.json();
 }
+export async function apiDel(path, withAuth = false) {
+  const res = await fetch(`${BASE}${path}`, {
+    method: "DELETE",
+    headers: { ...(withAuth ? authHeaders() : {}) }
+  });
+  if (!res.ok) throw new Error(`DELETE ${path} failed`);
+  return res.json();
+}
