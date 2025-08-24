@@ -30,6 +30,7 @@ export default function Header() {
           {!user && <Link to="/register">Register</Link>}
           {user && <span title={`Account ${user.accountNumber}`}>Hi, {user.name}</span>}
           {user && <button onClick={logout}>Logout</button>}
+          {user && <Link to="/profile">Account</Link>}
         </nav>
       </div>
     </header>
