@@ -41,5 +41,13 @@ export function updateProduct(id, patch) {
   return next[idx];
 }
 
+export function deleteProduct(id) {
+  const list = getProducts();
+  const next = list.filter(x => x.id !== id);
+  saveProducts(next);
+  return next;
+}
+
+
 
 
