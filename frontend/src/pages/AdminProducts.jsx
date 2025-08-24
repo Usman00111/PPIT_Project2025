@@ -24,6 +24,19 @@ export default function AdminProducts() {
                                 <th>Actions</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            {list.map(p => (
+                                <tr key={p.id} style={{ borderBottom: "1px solid #f3f3f3" }}>
+                                    <td>{p.name}</td>
+                                    <td>€{p.price.toFixed(2)}</td>
+                                    <td>{p.stock}</td>
+                                    <td>
+                                        <button>Edit</button>{" "}
+                                        <button>Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
             </section>
