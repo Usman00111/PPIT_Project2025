@@ -12,8 +12,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ensureing unique index for accountNumber
-userSchema.index({ accountNumber: 1 }, { unique: true });
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
