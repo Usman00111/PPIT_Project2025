@@ -14,6 +14,8 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Returns from "./pages/Returns";
+import MyOrders from "./pages/MyOrders";
+
 
 export default function App() {
   return (
@@ -36,6 +38,8 @@ export default function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/returns" element={<Returns />} />
           <Route path="*" element={<div>Not Found</div>} />
+          <Route path="/my-orders" element={<MyOrders />} />
+
         </Routes>
       </main>
       <footer style={{ textAlign: "center", padding: 16, borderTop: "1px solid #eee" }}>
