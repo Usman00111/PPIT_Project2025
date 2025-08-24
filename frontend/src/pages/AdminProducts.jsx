@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addProduct, getProducts } from "../lib/productStore";
+import { addProduct, getProducts, deleteProduct } from "../lib/productStore";
 
 
 export default function AdminProducts() {
@@ -118,7 +118,12 @@ export default function AdminProducts() {
                                     <td>{p.stock}</td>
                                     <td>
                                         <button>Edit</button>{" "}
-                                        <button>Delete</button>
+                                        <button onClick={() => {
+                                            if (!confirm(`Delete "${p.name}"?`)) return;
+                                            deleteProduct(p.id);
+                                            setList(getProducts());
+                                        }}>Delete</button>
+
                                     </td>
                                 </tr>
                             ))}
