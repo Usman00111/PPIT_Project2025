@@ -15,6 +15,11 @@ export function AuthProvider({ children }) {
     else localStorage.removeItem("auth_user");
   }, [user]);
 
+  useEffect(() => {
+    if (token) localStorage.setItem("auth_token", token);
+    else localStorage.removeItem("auth_token");
+  }, [token]);
+
     return (
         <AuthCtx.Provider value={{ user, token, setUser, setToken }}>
             {children}
