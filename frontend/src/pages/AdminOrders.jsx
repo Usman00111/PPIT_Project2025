@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { apiGet, apiPut } from "../lib/api";
+import { apiGetAuth, apiPut } from "../lib/api";
 
 export default function AdminOrders(){
   const { user } = useAuth();
@@ -11,7 +11,7 @@ export default function AdminOrders(){
 
   async function load(){
     try {
-      const data = await apiGet("/orders");
+      const data = await apiGetAuth("/orders");
       setList(data);
     } catch {
       setList([]);
