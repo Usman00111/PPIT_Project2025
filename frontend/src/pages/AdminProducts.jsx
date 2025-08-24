@@ -14,6 +14,10 @@ export default function AdminProducts() {
 
             <section style={{ marginTop: 16 }}>
                 <h3>Products List</h3>
+                <div style={{ overflowX: "auto" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    </table>
+                </div>
             </section>
         </div>
     )
