@@ -1,0 +1,8 @@
+require("dotenv").config();
+
+function exitWithError(msg, code = 1) {
+  console.error(msg);
+  process.exit(code);
+}
+
+module.exports = { exitWithError };
