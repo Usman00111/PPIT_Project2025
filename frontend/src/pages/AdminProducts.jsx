@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addProduct, getProducts, deleteProduct } from "../lib/productStore";
+import { addProduct, getProducts, deleteProduct, updateProduct } from "../lib/productStore";
 
 
 export default function AdminProducts() {
@@ -135,13 +135,13 @@ export default function AdminProducts() {
                                         </td>
                                         <td>
                                             <button onClick={() => {
-                                                // update store
                                                 const priceNum = Number(edit.price || 0);
                                                 const stockNum = Number(edit.stock || 0);
                                                 if (!edit.name || isNaN(priceNum)) return alert("Name and valid price required.");
-                                                // lazy import to avoid circulars in snippet, but we already imported update below
+                                                updateProduct(editingId, { name: edit.name, price: priceNum, stock: stockNum });
+                                                setList(getProducts());
+                                                setEditingId("");
                                             }}>Save</button>{" "}
-                                            <button onClick={() => setEditingId("")}>Cancel</button>
                                         </td>
                                     </tr>
                                 ) : (
