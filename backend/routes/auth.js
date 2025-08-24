@@ -15,6 +15,9 @@ router.post("/register", async (req, res) => {
     }
     const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ message: "Email already in use." });
+
+    const user = await User.create({ name, email, password }); // hashed in model pre-save
+    const token = signUser(user);
 });
 
 
