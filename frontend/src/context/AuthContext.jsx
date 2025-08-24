@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthCtx = createContext(null);
 
@@ -7,7 +7,13 @@ export function AuthProvider({ children }) {
     try { return JSON.parse(localStorage.getItem("auth_user") || "null"); }
     catch { return null; }
   });
+
   const [token, setToken] = useState(() => localStorage.getItem("auth_token") || "");
+
+   useEffect(() => {
+    if (user) localStorage.setItem("auth_user", JSON.stringify(user));
+    else localStorage.removeItem("auth_user");
+  }, [user]);
 
     return (
         <AuthCtx.Provider value={{ user, token, setUser, setToken }}>
