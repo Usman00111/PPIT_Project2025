@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const { signUser } = require("../utils/jwt");
+const { requireAuth } = require("../middleware/auth");
+
 
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
