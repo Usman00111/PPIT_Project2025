@@ -43,3 +43,13 @@ main {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+table th, table td { padding: 8px 6px; }
+button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+button:hover { background: #eee; }
+input { border: 1px solid #ccc; border-radius: 4px; padding: 6px; }
