@@ -3,11 +3,14 @@ import { createContext, useContext, useState } from "react";
 const AuthCtx = createContext(null);
 
 export function AuthProvider({ children }) {
-  return (
-    <AuthCtx.Provider value={{}}>
-      {children}
-    </AuthCtx.Provider>
-  );
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState("");
+
+    return (
+        <AuthCtx.Provider value={{ user, token, setUser, setToken }}>
+            {children}
+        </AuthCtx.Provider>
+    );
 }
 
 
