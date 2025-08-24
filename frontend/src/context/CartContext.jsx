@@ -20,3 +20,29 @@ export function CartProvider({ children }){
     </CartCtx.Provider>
   );
 }
+
+  function addItem(product, qty=1){
+    const q = Math.max(1, parseInt(qty, 10) || 1);
+    setItems(prev => {
+      const idx = prev.findIndex(it => it.id === product.id);
+      if (idx >= 0) {
+        const copy = [...prev];
+        copy[idx] = { ...copy[idx], quantity: copy[idx].quantity + q };
+        return copy;
+      }
+      return [...prev, {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        quantity: q
+      }];
+    });
+  }
+
+    return (
+    <CartCtx.Provider value={{ items, setItems, addItem }}>
+      {children}
+    </CartCtx.Provider>
+  );
+
