@@ -28,7 +28,7 @@ async function ensureAdmin({ ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME }) {
       password: ADMIN_PASSWORD,
       role: "admin",
     });
-    console.log("✅ Admin created:", user.email);
+    console.log(" Admin created:", user.email);
     return;
   }
 
@@ -40,7 +40,20 @@ async function ensureAdmin({ ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME }) {
     user.password = ADMIN_PASSWORD;
   }
   await user.save();
-  console.log("✅ Admin updated:", user.email);
+  console.log(" Admin updated:", user.email);
 }
+async function run() {
+  const env = getAdminEnv();
+  validateAdminEnv(env);
+  await connectDB();
+  await ensureAdmin(env);
+  await mongoose.connection.close();
+  process.exit(0);
+}
+
+run().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
 
 module.exports = { exitWithError, getAdminEnv, validateAdminEnv, mongoose, connectDB, User };
