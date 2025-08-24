@@ -17,3 +17,10 @@ export function getProducts() {
   return initial;
 }
 
+export function saveProducts(list) {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(list));
+  } catch {}
+}
+
+
