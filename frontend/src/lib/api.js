@@ -14,3 +14,16 @@ export async function apiGet(path) {
   if (!res.ok) throw new Error(`GET ${path} failed`);
   return res.json();
 }
+
+export async function apiPost(path, body, withAuth = false) {
+  const res = await fetch(`${BASE}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(withAuth ? authHeaders() : {})
+    },
+    body: JSON.stringify(body || {})
+  });
+  if (!res.ok) throw new Error(`POST ${path} failed`);
+  return res.json();
+}
