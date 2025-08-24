@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 const CartCtx = createContext(null);
+const count = items.reduce((n, it) => n + it.quantity, 0);
+const total = items.reduce((sum, it) => sum + it.price * it.quantity, 0);
+
 
 export function CartProvider({ children }){
   const [items, setItems] = useState(() => {
@@ -78,4 +81,10 @@ export function CartProvider({ children }){
     </CartCtx.Provider>
   );
 
-  
+
+  return (
+    <CartCtx.Provider value={{ items, addItem, updateItem, removeItem, clearCart, count, total }}>
+      {children}
+    </CartCtx.Provider>
+  );
+}
