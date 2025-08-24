@@ -87,4 +87,21 @@ export async function apiAuthMe() {
   });
   if (!res.ok) throw new Error("ME failed");
   return res.json();
+  
+}
+// GET with auth (JWT)
+export async function apiGetAuth(path) {
+  const res = await fetch(`${BASE}${path}`, {
+    headers: {
+      "x-cart-id": ensureCartId(),
+      ...authHeaders()
+    }
+  });
+  if (!res.ok) throw new Error(`GET ${path} failed`);
+  return res.json();
+}
+
+// PUT with auth (JWT) 
+export function apiPutAuth(path, body) {
+  return apiPut(path, body, true);
 }
