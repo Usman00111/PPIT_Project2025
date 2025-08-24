@@ -11,3 +11,13 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  if (this.isNew && !this.accountNumber) {
+    this.accountNumber = "BG" + Math.floor(10000000 + Math.random() * 90000000);
+  }
+  next();
+});
