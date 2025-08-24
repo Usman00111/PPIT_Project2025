@@ -41,6 +41,7 @@ export default function AdminOrders(){
           <thead>
             <tr style={{ textAlign: "left", borderBottom: "1px solid #eee" }}>
               <th>Order ID</th>
+              <th>Placed</th>
               <th>Items (qty)</th>
               <th>Total</th>
               <th>Status</th>
@@ -51,6 +52,7 @@ export default function AdminOrders(){
             {list.map(o => (
               <tr key={o._id} style={{ borderBottom: "1px solid #f3f3f3" }}>
                 <td>{o._id}</td>
+                <td>{o.createdAt ? new Date(o.createdAt).toLocaleString() : "-"}</td>
                 <td>{(o.items || []).map(i => `${i.quantity}x`).join(", ")}</td>
                 <td>€{Number(o.total).toFixed(2)}</td>
                 <td>{o.status}</td>
@@ -65,7 +67,7 @@ export default function AdminOrders(){
               </tr>
             ))}
             {list.length === 0 && (
-              <tr><td colSpan="5">No orders yet.</td></tr>
+              <tr><td colSpan="6">No orders yet.</td></tr>
             )}
           </tbody>
         </table>
