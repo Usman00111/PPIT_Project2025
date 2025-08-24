@@ -7,3 +7,11 @@ export default function AdminProducts(){
   useEffect(() => {
     setList(getProducts());
   }, []);
+
+  return (
+  <div>
+    <h2>Admin: Products</h2>
+  </div>
+)
+
+}
