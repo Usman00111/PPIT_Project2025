@@ -22,7 +22,8 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["placed", "paid", "shipped", "cancelled"],
       default: "placed"
-    }
+    },
+    shippingAddress: { type: Object }
   },
   { timestamps: true }
 );
