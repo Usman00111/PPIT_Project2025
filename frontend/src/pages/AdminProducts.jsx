@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { addProduct, getProducts, deleteProduct, updateProduct } from "../lib/productStore";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function AdminProducts() {
   const [list, setList] = useState([]);
