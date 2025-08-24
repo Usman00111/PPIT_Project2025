@@ -64,4 +64,18 @@ export function CartProvider({ children }){
     </CartCtx.Provider>
   );
 
+    function removeItem(productId){
+    setItems(prev => prev.filter(it => it.id !== productId));
+  }
+
+  function clearCart(){
+    setItems([]);
+  }
+
+    return (
+    <CartCtx.Provider value={{ items, addItem, updateItem, removeItem, clearCart }}>
+      {children}
+    </CartCtx.Provider>
+  );
+
   
