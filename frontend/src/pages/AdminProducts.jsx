@@ -16,6 +16,14 @@ export default function AdminProducts() {
                 <h3>Products List</h3>
                 <div style={{ overflowX: "auto" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                        <thead>
+                            <tr style={{ textAlign: "left", borderBottom: "1px solid #eee" }}>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                     </table>
                 </div>
             </section>
