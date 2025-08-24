@@ -1,8 +1,16 @@
 require("dotenv").config();
+const mongoose = require("mongoose");
+const connectDB = require("../config/db");
+const User = require("../models/User");
 
 function exitWithError(msg, code = 1) {
   console.error(msg);
   process.exit(code);
 }
 
-module.exports = { exitWithError };
+function getAdminEnv() {
+  const { ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME } = process.env;
+  return { ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME };
+}
+
+module.exports = { exitWithError, getAdminEnv, mongoose, connectDB, User };
