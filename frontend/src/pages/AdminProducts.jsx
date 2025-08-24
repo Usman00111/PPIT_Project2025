@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../lib/productStore";
+import { addProduct, getProducts } from "../lib/productStore";
+
 
 export default function AdminProducts() {
     const [list, setList] = useState([]);
@@ -37,7 +38,46 @@ export default function AdminProducts() {
                     <label>Description
                         <textarea name="description" value={f.description} onChange={onChange} rows={3} />
                     </label>
-                    <div>(Save button and preview will be added next)</div>
+                    <section>
+                        <h3>Add Product</h3>
+                        <form onSubmit={(e) => e.preventDefault()} style={{ display: "grid", gap: 8, maxWidth: 520 }}>
+                            <label>Name
+                                <input name="name" value={f.name} onChange={onChange} required />
+                            </label>
+                            <label>Price (€)
+                                <input name="price" type="number" step="0.01" value={f.price} onChange={onChange} required />
+                            </label>
+                            <label>Image URL
+                                <input name="imageUrl" value={f.imageUrl} onChange={onChange} placeholder="https://..." />
+                            </label>
+                            <label>Stock
+                                <input name="stock" type="number" value={f.stock} onChange={onChange} required />
+                            </label>
+                            <label>Description
+                                <textarea name="description" value={f.description} onChange={onChange} rows={3} />
+                            </label>
+
+                            <div>
+                                <button type="button" onClick={() => {
+                                    const p = {
+                                        name: f.name.trim(),
+                                        price: Number(f.price || 0),
+                                        imageUrl: f.imageUrl.trim(),
+                                        stock: Number(f.stock || 0),
+                                        description: f.description
+                                    };
+                                    if (!p.name || !p.price) return alert("Name and price are required.");
+                                    addProduct(p);
+                                    setList(getProducts());
+                                    setF({ name: "", price: "", imageUrl: "", stock: "", description: "" });
+                                    alert("Product added.");
+                                }}>
+                                    Save Product
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+
                 </form>
             </section>
 
