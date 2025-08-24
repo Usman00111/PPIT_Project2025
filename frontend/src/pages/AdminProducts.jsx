@@ -36,6 +36,11 @@ export default function AdminProducts() {
                                     </td>
                                 </tr>
                             ))}
+                            {list.length === 0 && (
+                                <tr>
+                                    <td colSpan="4">No products yet.</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
