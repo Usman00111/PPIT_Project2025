@@ -1,0 +1,5 @@
+const mongoose = require("mongoose");
+
+// Order schemas will go here once ready 
+
+module.exports = mongoose.model("Order", new mongoose.Schema({}));
