@@ -2,20 +2,25 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
-
 export default function Login() {
     const nav = useNavigate();
-    const { loginStub } = useAuth();
+    // use real login instead of loginStub
+    const { login } = useAuth();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState(""); // not used yet, kept for UI purposess
+    const [password, setPassword] = useState(""); // kept for UI purposes
 
-    function onSubmit(e) {
+    //make submit async and call real login, keep flow the same
+    async function onSubmit(e) {
         e.preventDefault();
-        if (!email) return;
-        loginStub(email);
-        nav("/");
-
+        if (!email || !password) return;
+        try {
+            await login(email, password);
+            nav("/");
+        } catch (err) {
+            alert("Login failed");
+        }
     }
+
     return (
         <div>
             <h2>Login</h2>
