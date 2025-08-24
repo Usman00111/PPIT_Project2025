@@ -15,6 +15,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Returns from "./pages/Returns";
 import MyOrders from "./pages/MyOrders";
+import Profile from "./pages/Profile"; 
 
 
 export default function App() {
@@ -39,6 +40,8 @@ export default function App() {
           <Route path="/returns" element={<Returns />} />
           <Route path="*" element={<div>Not Found</div>} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/profile" element={<Profile />} />
+
 
         </Routes>
       </main>
