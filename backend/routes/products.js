@@ -11,11 +11,12 @@ router.get("/", async (_req, res) => {
   }
 });
 
-// GET /api/products/:id (public) — placeholder
-router.get("/:id", async (_req, res) => {
+// GET /api/products/:id (public)
+router.get("/:id", async (req, res) => {
   try {
-    // real implementation next
-    res.status(501).json({ message: "Not implemented" });
+    const p = await Product.findById(req.params.id);
+    if (!p) return res.status(404).json({ message: "Product not found" });
+    res.json(p);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
