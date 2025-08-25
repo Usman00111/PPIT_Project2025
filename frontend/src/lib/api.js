@@ -1,10 +1,15 @@
+// Base API URL — comes from .env (VITE_API_BASE_URL) or falls back to localhost
 const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
+//Ensure a unique cart ID exists for this browser (stored in localStorage)
 function ensureCartId() {
   try {
     let cid = localStorage.getItem("cart_id");
     if (!cid) {
-      cid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+      // use modern crypto.randomUUID() if available, otherwise fallback to random string
+      cid = (crypto && crypto.randomUUID) 
+        ? crypto.randomUUID() 
+        : Math.random().toString(36).slice(2);
       localStorage.setItem("cart_id", cid);
     }
     return cid;
@@ -13,6 +18,7 @@ function ensureCartId() {
   }
 }
 
+// Helper to add Authorization header if user has a token
 function authHeaders() {
   try {
     const token = localStorage.getItem("auth_token") || "";
@@ -21,6 +27,9 @@ function authHeaders() {
     return {};
   }
 }
+
+// ===== Generic HTTP Helpers ==
+// Each request includes "x-cart-id" so backend can track guest carts
 
 export async function apiGet(path) {
   const res = await fetch(`${BASE}${path}`, {
@@ -36,7 +45,7 @@ export async function apiPost(path, body, withAuth = false) {
     headers: {
       "Content-Type": "application/json",
       "x-cart-id": ensureCartId(),
-      ...(withAuth ? authHeaders() : {})
+      ...(withAuth ? authHeaders() : {}) // add JWT header if requested
     },
     body: JSON.stringify(body || {})
   });
@@ -70,6 +79,7 @@ export async function apiDel(path, withAuth = false) {
   return res.json();
 }
 
+// = Auth-specific helpers ===
 export async function apiAuthRegister(name, email, password) {
   return apiPost("/auth/register", { name, email, password });
 }
@@ -87,9 +97,9 @@ export async function apiAuthMe() {
   });
   if (!res.ok) throw new Error("ME failed");
   return res.json();
-  
 }
-// GET with auth (JWT)
+
+// Convenience wrappers for auth-protected endpoints
 export async function apiGetAuth(path) {
   const res = await fetch(`${BASE}${path}`, {
     headers: {
@@ -101,7 +111,6 @@ export async function apiGetAuth(path) {
   return res.json();
 }
 
-// PUT with auth (JWT) 
 export function apiPutAuth(path, body) {
-  return apiPut(path, body, true);
+  return apiPut(path, body, true); // same as apiPut but always with auth
 }
