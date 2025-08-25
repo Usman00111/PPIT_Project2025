@@ -2,27 +2,31 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { apiGet } from "../lib/api";
 
-export default function MyOrders(){
+export default function MyOrders() {
   const { user } = useAuth();
+
+  // block access if not logged in
   if (!user) return <div>Please log in to view your orders.</div>;
 
+  // state for orders list and loading flag
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    (async ()=>{
+  // fetch orders that belong to the logged-in user
+  useEffect(() => {
+    (async () => {
       try {
         const data = await apiGet("/orders/mine");
         setList(data);
       } catch {
-        setList([]);
+        setList([]); // fallback if error
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
-   return (
+  return (
     <div>
       <h2>My Orders</h2>
       {loading ? (
