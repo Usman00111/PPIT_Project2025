@@ -2,18 +2,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function Cart() {
+    // grab cart state + helpers from CartContext
     const { items, updateItem, removeItem, total, clearCart } = useCart();
     const nav = useNavigate();
 
+    // increase item quantity by 1
     function inc(id, current) {
         const q = (parseInt(current, 10) || 1) + 1;
         updateItem(id, q);
     }
+
+    // decrease item quantity by 1 (minimum = 1)
     function dec(id, current) {
         const q = Math.max(1, (parseInt(current, 10) || 1) - 1);
         updateItem(id, q);
     }
 
+    // cart is empty
     if (items.length === 0) {
         return (
             <div>
@@ -23,7 +28,8 @@ export default function Cart() {
             </div>
         );
     }
-    
+
+    // cart has items
     return (
         <div>
             <h2>Cart</h2>
@@ -41,10 +47,17 @@ export default function Cart() {
                     <tbody>
                         {items.map(it => (
                             <tr key={it.id} style={{ borderBottom: "1px solid #f3f3f3" }}>
+                                {/* product thumbnail + name */}
                                 <td style={{ padding: "8px 4px", display: "flex", gap: 8, alignItems: "center" }}>
-                                    <img src={it.imageUrl} alt={it.name} style={{ width: 56, height: 40, objectFit: "cover", borderRadius: 4 }} />
+                                    <img
+                                        src={it.imageUrl}
+                                        alt={it.name}
+                                        style={{ width: 56, height: 40, objectFit: "cover", borderRadius: 4 }}
+                                    />
                                     <span>{it.name}</span>
                                 </td>
+
+                                {/* quantity controls (minus, input box, plus) */}
                                 <td>
                                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                                         <button onClick={() => dec(it.id, it.quantity)}>-</button>
@@ -56,8 +69,12 @@ export default function Cart() {
                                         <button onClick={() => inc(it.id, it.quantity)}>+</button>
                                     </div>
                                 </td>
+
+                                {/* unit price + subtotal */}
                                 <td>€{it.price.toFixed(2)}</td>
                                 <td>€{(it.price * it.quantity).toFixed(2)}</td>
+
+                                {/* remove item button */}
                                 <td><button onClick={() => removeItem(it.id)}>Remove</button></td>
                             </tr>
                         ))}
@@ -65,9 +82,11 @@ export default function Cart() {
                 </table>
             </div>
 
+            {/* UI: reserved cart time + total cost */}
             <div style={{ marginTop: 12, color: "#666" }}>Reserved: 30:00</div>
             <div style={{ marginTop: 12, fontWeight: 700 }}>Total: €{total.toFixed(2)}</div>
 
+            {/* actions: checkout, keep shopping, or clear cart */}
             <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
                 <button onClick={() => nav("/checkout")}>Checkout</button>
                 <Link to="/products"><button>Continue Shopping</button></Link>
@@ -76,4 +95,3 @@ export default function Cart() {
         </div>
     );
 }
-
