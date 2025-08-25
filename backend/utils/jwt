@@ -1,16 +1,17 @@
 const jwt = require("jsonwebtoken");
 
+// helper: create a signed JWT for a user
 function signUser(user) {
-  // Keep token payload small and simple
+  // Keep token payload small - only include essential info
   return jwt.sign(
     {
-      id: user._id,
-      role: user.role,
-      name: user.name,
-      accountNumber: user.accountNumber
+      id: user._id,     // MongoDB user ID
+      role: user.role,// user role (user/admin)
+      name: user.name,// display name
+      accountNumber: user.accountNumber // unique account number
     },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
+    process.env.JWT_SECRET, // secret key from .env
+    { expiresIn: "7d" }// token expires in 7 days
   );
 }
 

@@ -4,18 +4,38 @@ const connectDB = require("../config/db");
 const Product = require("../models/Product");
 
 async function run() {
+  // connects to MongoDB
   await connectDB();
 
-    const sample = [
-    { name: "Apples 1kg", price: 2.0, imageUrl: "", stock: 14, description: "Fresh Irish apples." },
-    { name: "Milk 2L", price: 2.1, imageUrl: "", stock: 20, description: "Semi-skimmed milk." }
+  // sample product list to preload into DB
+  const sample = [
+    { 
+      name: "Apples 1kg", 
+      price: 2.0, 
+      imageUrl: "", 
+      stock: 14, 
+      description: "Fresh Irish apples." 
+    },
+    { 
+      name: "Milk 2L", 
+      price: 2.1, 
+      imageUrl: "", 
+      stock: 20, 
+      description: "Semi-skimmed milk." 
+    }
   ];
-    await Product.insertMany(sample);
-  console.log("✅ Seeded products:", sample.length);
 
+  // inserts sample products into collection
+  await Product.insertMany(sample);
+  console.log("Seeded products:", sample.length);
 
+  // close DB connection and exit
   await mongoose.connection.close();
   process.exit(0);
 }
-run().catch(e => { console.error(e); process.exit(1); });
 
+// handles unexpected errors
+run().catch(e => { 
+  console.error(e); 
+  process.exit(1); 
+});

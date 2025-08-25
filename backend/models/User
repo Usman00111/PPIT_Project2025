@@ -1,30 +1,49 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+// define schema for users
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ["user", "admin"], default: "user" },
-    accountNumber: { type: String, unique: true }
+    name: { type: String, required: true }, // full name
+    email: { 
+      type: String, 
+      required: true, 
+      unique: true, // no duplicates allowed
+      lowercase: true, // always stored in lowercase
+      trim: true // removes spaces
+    },
+    password: { type: String, required: true }, // hashed password
+    role: { 
+      type: String, 
+      enum: ["user", "admin"], 
+      default: "user" 
+    }, // admin vs normal user
+    accountNumber: { type: String, unique: true } // generated unique account number
   },
-  { timestamps: true }
+  { timestamps: true } // auto adds createdAt and updatedAt
 );
 
-
+// hook: runs before saving a user
 userSchema.pre("save", async function (next) {
+  // if password is new or updated - hash it
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  // if new user and no account number - generate one
   if (this.isNew && !this.accountNumber) {
-    this.accountNumber = "BG" + String(Math.floor(10000000 + Math.random() * 90000000));
+    this.accountNumber = "BG" + String(
+      Math.floor(10000000 + Math.random() * 90000000) // random 8-digit number
+    );
   }
-  next();
+
+  next(); // continue saving
 });
 
+// method() to compare entered password with hashed one
 userSchema.methods.compare = function (pw) {
   return bcrypt.compare(pw, this.password);
 };
 
+// export model
 module.exports = mongoose.model("User", userSchema);

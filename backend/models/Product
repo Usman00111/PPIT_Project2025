@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 
+// define schema for products
 const productSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    imageUrl: { type: String },
-    stock: { type: Number, required: true, min: 0 },
-    description: { type: String }
+    // basic product details
+    name: { type: String, required: true }, // product name
+    price: { type: Number, required: true }, // price per unit
+    imageUrl: { type: String }, //  image link
+
+    // inventory control
+    stock: { type: Number, required: true, min: 0 }, // available stock (cannot be negative)
+
+    // extra details
+    description: { type: String } // product description
   },
-  { timestamps: true }
+  { timestamps: true } // auto adds createdAt and updatedAt
 );
 
+// export model
 module.exports = mongoose.model("Product", productSchema);

@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
+// define schema for orders
 const orderSchema = new mongoose.Schema(
   {
+    // link to a registered user if logged in
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+    // store guest checkout details if user is not logged in
     guest: {
       name: String,
       email: String,
@@ -10,22 +14,42 @@ const orderSchema = new mongoose.Schema(
       address: String,
       eircode: String
     },
+
+    // list of ordered items
     items: [
       {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
-        quantity: { type: Number, required: true, min: 1 },
-        price: { type: Number, required: true }
+        product: { 
+          type: mongoose.Schema.Types.ObjectId, 
+          ref: "Product", 
+          required: true 
+        }, // reference to product
+        quantity: { 
+          type: Number, 
+          required: true, 
+          min: 1 
+        }, // number of units
+        price: { 
+          type: Number, 
+          required: true 
+        } // final price per unit at time of order
       }
     ],
+
+    // total prices of the whole order
     total: { type: Number, required: true },
+
+    // status of order as it moves through lifecycles
     status: {
       type: String,
       enum: ["placed", "paid", "shipped", "cancelled"],
       default: "placed"
     },
+
+    // optional shipping address object
     shippingAddress: { type: Object }
   },
-  { timestamps: true }
+  { timestamps: true } // automatically adds createdAt and updatedAt
 );
 
+// export model
 module.exports = mongoose.model("Order", orderSchema);

@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
 
-// GET /api/products (public) — real DB query
+// GET /api/products (public)
+// Returns all products, newest first
 router.get("/", async (_req, res) => {
   try {
+    // query all products, sorted by creation date (latest first)
     const list = await Product.find().sort({ createdAt: -1 });
     res.json(list);
   } catch (e) {
@@ -12,6 +14,7 @@ router.get("/", async (_req, res) => {
 });
 
 // GET /api/products/:id (public)
+// Returnz a single product by ID
 router.get("/:id", async (req, res) => {
   try {
     const p = await Product.findById(req.params.id);

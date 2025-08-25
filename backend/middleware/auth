@@ -1,22 +1,31 @@
 const jwt = require("jsonwebtoken");
 
+// middleware to check if request has a valid JWT
 function requireAuth(req, res, next) {
-  const header = req.headers.authorization || "";
-  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  const header = req.headers.authorization || ""; // read the Authorization header
+  const token = header.startsWith("Bearer ") ? header.slice(7) : null; // extract token
+
+  if (!token) return res.status(401).json({ message: "Unauthorized" }); // no token - reject
 
   try {
+    // verify token with secret key
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload; // { id, role, name, accountNumber }
-    next();
+
+    // attach decoded payload ((id, role, name, accountNumber) to request
+    req.user = payload;
+
+    next(); // continue to the next middleware/route
   } catch {
-    return res.status(401).json({ message: "Invalid token" });
+    return res.status(401).json({ message: "Invalid token" }); // token invalid/expired
   }
 }
 
+// middleware to check if the user is an admin
 function requireAdmin(req, res, next) {
-  if (req.user?.role !== "admin") return res.status(403).json({ message: "Forbidden" });
-  next();
+  if (req.user?.role !== "admin") 
+    return res.status(403).json({ message: "Forbidden" }); // not admin - reject
+
+  next(); // userz is admin - allow
 }
 
 module.exports = { requireAuth, requireAdmin };

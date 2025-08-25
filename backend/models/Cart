@@ -1,21 +1,48 @@
 const mongoose = require("mongoose");
 
-// final field: expiresAt for reservation timeout
+// define schema for shopping cart
 const cartSchema = new mongoose.Schema(
   {
+    //link cart to a registered user
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    sessionId: { type: String }, // for guests
+
+    // for guest users (not logged in), track by sessionId
+    sessionId: { type: String },
+
+    // items inside the cart
     items: [
       {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
-        quantity: { type: Number, required: true, min: 1 },
-        priceAtAdd: { type: Number, required: true }
+        product: { 
+          type: mongoose.Schema.Types.ObjectId, 
+          ref: "Product", 
+          required: true 
+        }, // reference to Product model
+
+        quantity: { 
+          type: Number, 
+          required: true, 
+          min: 1 
+        }, // how many units
+
+        priceAtAdd: { 
+          type: Number, 
+          required: true 
+        } // snapshot of price when added
       }
     ],
-    status: { type: String, enum: ["active", "ordered", "expired"], default: "active" },
+
+    // status of cart
+    status: { 
+      type: String, 
+      enum: ["active", "ordered", "expired"], 
+      default: "active" 
+    },
+
+    // when cart should expire (used for reservation timeout)
     expiresAt: { type: Date }
   },
-  { timestamps: true }
+  { timestamps: true } // adds createdAt and updatedAt automatically
 );
 
+// export model
 module.exports = mongoose.model("Cart", cartSchema);
